@@ -71,9 +71,9 @@ export function DashboardSidebar() {
                                             <el.icon className="size-5" />
                                             <span className="text-sm font-semibold tracking-tighter">{el.label}</span>
                                         </Link>
-                                    </SidebarMenuButton>
+                                    </SidebarMenuButton> 
                                 </SidebarMenuItem>
-                            )) }
+                            ))}
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>

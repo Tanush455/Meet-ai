@@ -1,6 +1,6 @@
 "use client"
 import React, { Dispatch, SetStateAction } from 'react'
-import { CommandDialog, CommandInput, CommandItem } from '../ui/command'
+import { CommandResponsiveDialog, CommandInput, CommandItem } from '../ui/command'
 import { CommandList } from 'cmdk'
 interface Props {
     open: boolean,
@@ -9,7 +9,7 @@ interface Props {
 
 function DashboardCommand({open,setOpen}:Props) {
   return (
-    <CommandDialog open={open} onOpenChange={setOpen}>
+    <CommandResponsiveDialog open={open} onOpenChange={setOpen}>
         <CommandInput
         placeholder='Find a meeting or agent'/>
         <CommandList>
@@ -17,7 +17,7 @@ function DashboardCommand({open,setOpen}:Props) {
                 Test
             </CommandItem>
         </CommandList>
-    </CommandDialog>
+    </CommandResponsiveDialog>
   )
 }
 

@@ -10,7 +10,7 @@ function DashBoardNavBar() {
 
     useEffect(() => {
         const down = (e: KeyboardEvent) => {
-            console.log("keydown event:", e.key, e.ctrlKey, e.metaKey);
+            // console.log("keydown event:", e.key, e.ctrlKey, e.metaKey);
             if ((e.key === "k" || e.key === "K") && (e.metaKey || e.ctrlKey)) {
                 e.preventDefault();
                 setCommandOpen((open) => !open);

@@ -32,7 +32,7 @@ function DashboardUserButton() {
     const router = useRouter();
     const isMobile = useIsMobile();
     const { data, isPending } = authClient.useSession();
-    console.log(data?.user.image);
+    // console.log(data?.user.image);
     if (isPending || !data?.user) {
         return <div className="flex justify-center items-center w-full h-full py-8"><Loader /></div>;
     }
