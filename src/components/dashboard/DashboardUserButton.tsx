@@ -81,15 +81,15 @@ function DashboardUserButton() {
                         </DrawerDescription>
                         <DrawerFooter>
                             <Button
-                            variant="outline"
-                            onClick={() => {}}>
-                                <CreditCardIcon className='size-4 text-black'/>
+                                variant="outline"
+                                onClick={() => { }}>
+                                <CreditCardIcon className='size-4 text-black' />
                                 Billing
                             </Button>
                             <Button
-                            variant="outline"
-                            onClick={onLogout}>
-                                <LogOutIcon className='size-4 text-black'/>
+                                variant="outline"
+                                onClick={onLogout}>
+                                <LogOutIcon className='size-4 text-black' />
                                 Logout
                             </Button>
                         </DrawerFooter>

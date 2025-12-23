@@ -31,11 +31,11 @@ export default async function handler(
       name: 'AI Agent',
       role: 'bot',
     };
-    await client.upsertUser(agentUser);
+    await client.upsertUsers([agentUser]);
 
     // Add the agent to the call
-    const call = client.call('default', meetingId);
-    await call.join({ userId: agentId });
+    const call = client.video.call('default', meetingId);
+    await call.goLive(agentId);
 
     res.status(200).json({ message: 'Agent joined successfully' });
   } catch (error) {

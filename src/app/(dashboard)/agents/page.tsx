@@ -16,7 +16,7 @@ interface Props {
 }
 
 
-const AgentsPage = async ({searchParams}: Props) => {
+const AgentsPage = async ({ searchParams }: Props) => {
 
     const filters = await loadSearchParams(searchParams);
 
@@ -27,7 +27,8 @@ const AgentsPage = async ({searchParams}: Props) => {
 
     if (!session) {
         redirect('/login')
-    } const queryClient = getQueryClient();
+    }
+    const queryClient = getQueryClient();
     void queryClient.prefetchQuery(trpc.agents.getMany.queryOptions({
         ...filters,
     }));

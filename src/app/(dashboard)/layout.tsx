@@ -7,12 +7,12 @@ interface Props {
 const Layout = ({ children }: Props) => {
     return (
         <SidebarProvider>
-            <DashboardSidebar/>
+            <DashboardSidebar />
             <main className="flex flex-col h-screen w-screen bg-muted">
-            <DashBoardNavBar/>
-            <div className="flex-1 overflow-y-auto">
-                {children}
-            </div>
+                <DashBoardNavBar />
+                <div className="flex-1 overflow-y-auto">
+                    {children}
+                </div>
             </main>
         </SidebarProvider>
     )

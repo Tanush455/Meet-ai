@@ -55,54 +55,54 @@ export function DashboardSidebar() {
                 </Link>
             </SidebarHeader>
             <div className="px-4 py-2">
-                <Separator className="opacity-10 text-[#5D6B6A]"/>
+                <Separator className="opacity-10 text-[#5D6B6A]" />
             </div>
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {firstSection.map((el,index) => (
+                            {firstSection.map((el, index) => (
                                 <SidebarMenuItem key={index}>
-                                    <SidebarMenuButton 
-                                    asChild
-                                    className={cn("h-10 hover:bg-linear-to-r/oklch border border-transparent hover:border-[#5D6B6B]/10 from-sidebar-accent from-5% via-30% via-sidebar/50 to-sidebar/50",pathname === el.href && " bg-linear-to-r/oklchch border-[#5D6B6A]/10")}
-                                    isActive= {pathname === el.href}>
-                                        <Link href={el.href} className="flex items-center gap-2">
-                                            <el.icon className="size-5" />
-                                            <span className="text-sm font-semibold tracking-tighter">{el.label}</span>
-                                        </Link>
-                                    </SidebarMenuButton> 
-                                </SidebarMenuItem>
-                            ))}
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-
-                <Separator className="opacity-10 text-[#5D6B6A]"/>
-
-                <SidebarGroup>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            {secondSection.map((el,index) => (
-                                <SidebarMenuItem key={index}>
-                                    <SidebarMenuButton 
-                                    asChild
-                                    className={cn("h-10 hover:bg-linear-to-r/oklch border border-transparent hover:border-[#5D6B6B]/10 from-sidebar-accent from-5% via-30% via-sidebar/50 to-sidebar/50",pathname === el.href && " bg-linear-to-r/oklchch border-[#5D6B6A]/10")}
-                                    isActive= {pathname === el.href}>
+                                    <SidebarMenuButton
+                                        asChild
+                                        className={cn("h-10 hover:bg-linear-to-r/oklch border border-transparent hover:border-[#5D6B6B]/10 from-sidebar-accent from-5% via-30% via-sidebar/50 to-sidebar/50", pathname === el.href && " bg-linear-to-r/oklchch border-[#5D6B6A]/10")}
+                                        isActive={pathname === el.href}>
                                         <Link href={el.href} className="flex items-center gap-2">
                                             <el.icon className="size-5" />
                                             <span className="text-sm font-semibold tracking-tighter">{el.label}</span>
                                         </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
-                            )) }
+                            ))}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+
+                <Separator className="opacity-10 text-[#5D6B6A]" />
+
+                <SidebarGroup>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            {secondSection.map((el, index) => (
+                                <SidebarMenuItem key={index}>
+                                    <SidebarMenuButton
+                                        asChild
+                                        className={cn("h-10 hover:bg-linear-to-r/oklch border border-transparent hover:border-[#5D6B6B]/10 from-sidebar-accent from-5% via-30% via-sidebar/50 to-sidebar/50", pathname === el.href && " bg-linear-to-r/oklchch border-[#5D6B6A]/10")}
+                                        isActive={pathname === el.href}>
+                                        <Link href={el.href} className="flex items-center gap-2">
+                                            <el.icon className="size-5" />
+                                            <span className="text-sm font-semibold tracking-tighter">{el.label}</span>
+                                        </Link>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            ))}
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
 
             <SidebarFooter className="text-white">
-                <DashboardUserButton/>
+                <DashboardUserButton />
             </SidebarFooter>
         </Sidebar>
     )
