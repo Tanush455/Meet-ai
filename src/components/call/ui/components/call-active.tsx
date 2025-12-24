@@ -1,14 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-    CallControls,
-    SpeakerLayout
+  CallControls,
+  SpeakerLayout
 } from "@stream-io/video-react-sdk"
 import { on } from "events";
 
 interface Props {
-    onLeave : () => void;
-    meetingName: string
+  onLeave: () => void;
+  meetingName: string
 };
 
 export const CallActive: React.FC<Props> = ({ onLeave, meetingName }) => {

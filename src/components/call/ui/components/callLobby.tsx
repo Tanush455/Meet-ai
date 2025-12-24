@@ -67,7 +67,7 @@ export const CallLobby = ({ onJoin, isJoining }: Props) => {
                         <ToggleVideoPreviewButton />
                     </div>
                     <div className='flex gap-x-2 justify-between w-full'>
-                        <Button variant="ghost">
+                        <Button variant="ghost" asChild>
                             <Link href='/meetings'>
                                 Cancel
                             </Link>

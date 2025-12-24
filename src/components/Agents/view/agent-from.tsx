@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -39,12 +38,12 @@ function AgentForm({ onSuccess, onCancel, initialValues }: AgentFromProps) {
 
   const createAgent = useMutation(
     trpc.agents.create.mutationOptions({
-      onSuccess: async() => {
+      onSuccess: async () => {
         await queryClient.invalidateQueries(
           trpc.agents.getMany.queryOptions({}),
         )
 
-        if(initialValues?.id){
+        if (initialValues?.id) {
           await queryClient.invalidateQueries(
             trpc.agents.getOne.queryOptions({
               id: initialValues.id,
@@ -62,17 +61,17 @@ function AgentForm({ onSuccess, onCancel, initialValues }: AgentFromProps) {
 
   const updateAgent = useMutation(
     trpc.agents.update.mutationOptions({
-      onSuccess: async() => {
+      onSuccess: async () => {
         // Clear all agents-related cache and force refetch
         await queryClient.removeQueries({
           queryKey: ['agents']
         });
-        
+
         // Force immediate refetch of all agents data
         await queryClient.refetchQueries({
           queryKey: ['agents']
         });
-        
+
         toast.success("Agent updated successfully!");
         onSuccess?.();
       },
@@ -117,7 +116,7 @@ function AgentForm({ onSuccess, onCancel, initialValues }: AgentFromProps) {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input {...field} placeholder='eg: Math Tutor'/>
+                <Input {...field} placeholder='eg: Math Tutor' />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -131,29 +130,29 @@ function AgentForm({ onSuccess, onCancel, initialValues }: AgentFromProps) {
             <FormItem>
               <FormLabel>Instructions</FormLabel>
               <FormControl>
-                <Textarea {...field} placeholder='Explain the content Needed'/>
+                <Textarea {...field} placeholder='Explain the content Needed' />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-      <div className='flex justify-between gap-x-2'>
-        {onCancel && (
-          <Button
-            type="button"
-            variant="ghost"
-            disabled={isPending}
-            onClick={(e) => onCancel()}
-          >
-            cancel
+        <div className='flex justify-between gap-x-2'>
+          {onCancel && (
+            <Button
+              type="button"
+              variant="ghost"
+              disabled={isPending}
+              onClick={(e) => onCancel()}
+            >
+              cancel
+            </Button>
+          )}
+          <Button disabled={isPending} type='submit'>
+            {isEdit ? "Update" : "Create"}
           </Button>
-        )}
-        <Button disabled={isPending} type='submit'>
-          {isEdit ? "Update" : "Create"}
-        </Button>
-      </div>
-    </form>
-      </Form >
+        </div>
+      </form>
+    </Form >
   )
 }
 

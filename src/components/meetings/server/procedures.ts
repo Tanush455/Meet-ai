@@ -21,9 +21,12 @@ export const meetingsRouter = createTRPCRouter({
                     GenratedAvatar({ seed: ctx.auth.user.name, variant: "initials" }),
             },
         ]); // create/ensure user before issuing token [web:68]
-
+        const exprirationTime = Math.floor(Date.now() / 1000) + 3600; // optional expiration time (1 hour from now) [web:68][web:112]
+        const issuedAt = Math.floor(Date.now() / 1000) - 60; // optional issued at time (now) [web:68][web:112]
         const token = streamVideo.generateUserToken({
             user_id: ctx.auth.user.id,
+            exp: exprirationTime,
+            validity_in_seconds: issuedAt
             // validity_in_seconds: 3600, // optional
         }); // server-only token generation [web:68][web:112]
 
@@ -197,11 +200,11 @@ export const meetingsRouter = createTRPCRouter({
                         }
                     }
                 }
-            })
+            });
 
             const existingAgent = await prisma.agents.findFirst({
                 where: {
-                    id: input.agentId
+                    id: createdMeeting.agentId,
                 }
             })
 
@@ -214,7 +217,7 @@ export const meetingsRouter = createTRPCRouter({
 
             await streamVideo.upsertUsers([
                 {
-                    id: createdMeeting.agentId,
+                    id: existingAgent.id,
                     name: existingAgent.name,
                     role: "user",
                     image: GenratedAvatar({ seed: existingAgent.name, variant: "botttsNeutral" })

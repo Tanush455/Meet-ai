@@ -4,43 +4,38 @@ import {
   Call,
   CallingState,
   StreamCall,
-  StreamTheme,
+  StreamVideoClient,
   StreamVideo,
-  SpeakerLayout,
-  CallControls,
 } from '@stream-io/video-react-sdk';
 import '@stream-io/video-react-sdk/dist/css/styles.css';
 
-import { StreamVideoClient } from '@stream-io/video-client'; // correct import
 import { useMutation } from '@tanstack/react-query';
 import { LoaderIcon } from 'lucide-react';
-import { useEffect, useMemo, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import CallUI from './CallUI';
 import { useTRPC } from '@/trpc/client';
-import { MeetingGetOne } from '@/components/meetings/types';
 
 interface Props {
-  meeting: MeetingGetOne;
+  meetingId: string,
+  meetingName: string,
   userId: string;
   username: string;
-  userImage: string | null | undefined;
+  userImage: string;
 }
 
 export const CallConnect = ({
-  meeting,
+  meetingId,
+  meetingName,
   userId,
   username,
   userImage,
 }: Props) => {
   const trpc = useTRPC();
-  const { mutateAsync: generateToken } =
-  useMutation(trpc.meetings.generateToken.mutationOptions());
-  const tokenProvider = useCallback(async () => {
-  const res = await generateToken();
-  return res.token; // return a string, not an object
-}, [generateToken]);
+  const { mutateAsync: generateToken } = useMutation(
+    trpc.meetings.generateToken.mutationOptions(),
+  );
 
-  const [client, setClient] = useState<StreamVideoClient | undefined>();
+  const [client, setClient] = useState<StreamVideoClient>();
 
   useEffect(() => {
     const _client = new StreamVideoClient({
@@ -48,43 +43,44 @@ export const CallConnect = ({
       user: {
         id: userId,
         name: username,
-        image: userImage || undefined,
+        image: userImage
       },
-      tokenProvider,
+      tokenProvider: async () => {
+        const result = await generateToken();
+        return result.token;
+      }
     });
 
     setClient(_client);
 
     return () => {
       _client.disconnectUser();
-      setClient(undefined);
-    };
-  }, [userId, username, userImage, tokenProvider]);
+      setClient(_client);
+    }
+  }, [userId, username, userImage, generateToken]);
 
-  const [call, setCall] = useState<Call | undefined>();
+  const [call, setCall] = useState<Call>();
 
   useEffect(() => {
     if (!client) return;
-
-    const _call = client.call('default', meeting.id);
-    // Disable devices by default (optional)
-    _call.camera.disable?.();
-    _call.microphone.disable?.();
-
+    const _call = client.call("default", meetingId);
+    _call.camera.disable();
+    _call.microphone.disable();
     setCall(_call);
 
     return () => {
       if (_call.state.callingState !== CallingState.LEFT) {
         _call.leave();
+        _call.endCall();
+        setCall(undefined)
       }
-      setCall(undefined);
-    };
-  }, [client, meeting.id]);
+    }
+  }, [client, meetingId]);
 
   if (!client || !call) {
     return (
-      <div className="flex h-screen items-center justify-center bg-radial from-sidebar-accent to-sidebar">
-        <LoaderIcon className="size-6 animate-spin text-white" />
+      <div className='flex h-screen items-center justify-center bg-radial from-sidebar-accent to-sidebar'>
+        <LoaderIcon className='size-6 animate-spin text-white' />
       </div>
     );
   }
@@ -92,8 +88,8 @@ export const CallConnect = ({
   return (
     <StreamVideo client={client}>
       <StreamCall call={call}>
-        <CallUI meeting={meeting} />
+        <CallUI meetingName={meetingName} />
       </StreamCall>
     </StreamVideo>
-  );
+  )
 };

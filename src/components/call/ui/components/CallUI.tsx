@@ -1,17 +1,15 @@
-import { MeetingGetOne } from '@/components/meetings/types';
 import { StreamTheme, useCall, useCallStateHooks, CallingState } from '@stream-io/video-react-sdk'
 import { useState } from 'react'
 import { CallLobby } from './callLobby';
 import { CallActive } from './call-active';
 import { CallEnded } from './CallEnded';
-import { MeetingGetOne } from '@/components/meetings/types';
 
 interface Props {
-    meeting: MeetingGetOne
+    meetingName: string
 }
 
 
-export default function CallUI({ meeting }: Props) {
+export default function CallUI({ meetingName }: Props) {
     const call = useCall();
     const { useCallCallingState } = useCallStateHooks();
     const callingState = useCallCallingState();
@@ -23,17 +21,17 @@ export default function CallUI({ meeting }: Props) {
         if (isJoining || !call || callingState !== CallingState.IDLE) return;
         setIsJoining(true);
         try {
-            await call.join({ create: true }); // create if missing, or join if exists
+            await call.join({ create: true });
             setShow("call");
 
-            // Call the API to add the agent to the call
-            await fetch('/api/live-agent', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ meetingId: meeting.id, agentId: meeting.agentId }),
-            });
+            // // Call the API to add the agent to the call
+            // await fetch('/api/live-agent', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({ meetingId: meetingId, agentId: meeting.agentId }),
+            // });
 
         } catch (e) {
             console.error("Failed to join call", e);
@@ -52,8 +50,8 @@ export default function CallUI({ meeting }: Props) {
     return (
         <StreamTheme className='h-full'>
             {show === "lobby" && (<CallLobby onJoin={handleJoin} isJoining={isJoining} />)}
-            {show === "call" && (<CallActive onLeave={handleLeave} meetingName={meeting.name} />)}
-            {show === "ended" && (<CallEnded/>)}
+            {show === "call" && (<CallActive onLeave={handleLeave} meetingName={meetingName} />)}
+            {show === "ended" && (<CallEnded />)}
         </StreamTheme>
     )
 }

@@ -24,9 +24,9 @@ function ResponsiveDialog({
     children,
     open,
     onOpenChange
-}:ResponsiveDialogProps) {
+}: ResponsiveDialogProps) {
     const isMobile = useIsMobile();
-    if(isMobile) {
+    if (isMobile) {
         return (
             <Drawer open={open} onOpenChange={onOpenChange}>
                 <DrawerContent>
